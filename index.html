@@ -1654,20 +1654,20 @@
                                 <p>Black and grey tattoo work</p>
                             </div>
                         </div>
-                        <div class="portfolio-image-wrapper" onclick="openLightbox('portfolio', 1)">
-                            <img src="http://stayonpoint.net/wp-content/uploads/2025/07/IMG_4388.jpg" alt="Custom NY themed Sleeve" class="portfolio-image">
+                        <div class="portfolio-image-wrapper" onclick="openLightbox('portfolio', 0)">
+                            <img src="http://stayonpoint.net/wp-content/uploads/2025/08/USA-flag-and-AmericanEagle.jpg" alt="Custom NY themed Sleeve" class="portfolio-image">
                             <div class="portfolio-overlay">
                                 <h4>Custom NY Sleeve</h4>
                                 <p>Black and grey style</p>
                             </div>
                         </div>
-                        <div class="portfolio-image-wrapper" onclick="openLightbox('portfolio', 2)">
-                            <img src="http://stayonpoint.net/wp-content/uploads/2025/07/29F88FC6-B860-4C48-B028-0FCEDBF0D4B4.jpg" alt="Dark Fantasy" class="portfolio-image">
+                        <div class="portfolio-image-wrapper" onclick="openLightbox('sleeves', 0)">
+                            <img src="http://stayonpoint.net/wp-content/uploads/2025/08/spartan-warrior-skull-armor-sleeve.jpg" alt="Spartan themed sleeve" class="portfolio-image">
                             <div class="portfolio-overlay">
                                 <h4>Spartan</h4>
                                 <p>Black and Grey surreal artwork</p>
                             </div>
-                        </div>
+                        </div><!--
                         <div class="portfolio-image-wrapper" onclick="openLightbox('portfolio', 3)">
                             <img src="http://stayonpoint.net/wp-content/uploads/2025/07/412B64DE-E103-49FD-9EC4-774BBD3D84B2.jpg" alt="Fine Detail Work" class="portfolio-image">
                             <div class="portfolio-overlay">
@@ -1688,7 +1688,7 @@
                                 <h4>Black & Grey</h4>
                                 <p>Shading and contrast mastery</p>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 
                     <div class="book-session">
@@ -1765,6 +1765,19 @@
             </div>
         </div>
     </div>
+    <!-- Lightbox for Portfolio -->
+    <div id="sleeves-lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox('sleeves')">&times;</button>
+            <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox('sleeves', -1)">‹</button>
+            <img id="sleeves-lightbox-image" class="lightbox-image" src="" alt="">
+            <button class="lightbox-nav lightbox-next" onclick="navigateLightbox('sleeves', 1)">›</button>
+            <div class="lightbox-caption">
+                <h4 id="sleeves-lightbox-title"></h4>
+                <p id="sleeves-lightbox-description"></p>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Gallery data
@@ -1788,12 +1801,18 @@
                 { src: 'http://stayonpoint.net/wp-content/uploads/2025/08/Man-with-abrast-lighting.jpg', title: 'Black & Grey', description: 'Shading and contrast mastery' }
             ],
             portfolio: [
-                { src: 'portfolio1.jpg', title: 'Portrait Realism', description: 'Hyper-realistic photographic portraits' },
-                { src: 'portfolio2.jpg', title: 'Japanese Sleeve', description: 'Traditional Irezumi style' },
-                { src: 'portfolio3.jpg', title: 'Dark Fantasy', description: 'Gothic and surreal artwork' },
-                { src: 'portfolio4.jpg', title: 'Fine Detail Work', description: 'Precision and micro realism' },
-                { src: 'portfolio5.jpg', title: 'Cover-up Work', description: 'Complete transformation pieces' },
-                { src: 'portfolio6.jpg', title: 'Black & Grey', description: 'Shading and contrast mastery' }
+                { src: 'http://stayonpoint.net/wp-content/uploads/2025/08/USA-flag-and-AmericanEagle.jpg', title: 'USA themed tatto', description: 'Tattoo with USA Flag and realistic American eagle' },
+                { src: 'http://stayonpoint.net/wp-content/uploads/2025/08/American-Eagle-USA-custom-sleeve.jpg', title: 'USA themed tattoo', description: 'Tattoo with USA Flag and flying bird and realistic American eagle' }
+            ],
+            sleeves: [
+                { src: 'http://stayonpoint.net/wp-content/uploads/2025/08/spartan-warrior-skull-armor-sleeve.jpg', title: 'Spartan themed sleeve', description: 'Tattoo with Spartan helmet, warrior imagery, skulls, and ancient battle themes' },
+                { src: 'http://stayonpoint.net/wp-content/uploads/2025/08/new-york-queens-baseball-sleeve-with-lion.jpg', title: 'NYC themed tattoo', description: 'Tattoo with NY Yankees logos, "Queens" text, roses, and baseball-themed imagery' },
+                { src: 'http://stayonpoint.net/wp-content/uploads/2025/08/african-mythology-yemenya-fish-sleeve.jpg', title: 'African themed tattoo', description: 'Tattoo with African-inspired designs with Yemenya, fishes, waves, and traditional African artistic elements' },
+                { src: 'http://stayonpoint.net/wp-content/uploads/2025/08/american-eagle-patriotic-flag-sleeve.jpg', title: 'USA themed tattoo', description: 'Tattoo with USA Flag and flying bird and realistic American eagle' },
+                { src: 'http://stayonpoint.net/wp-content/uploads/2025/08/gambling-dice-clock-roses-sleeve.jpg', title: 'Custom themed tattoo', description: 'Tattoo with dice, pocket watch/clock, roses, and gaming/chance motifs' },
+                { src: 'http://stayonpoint.net/wp-content/uploads/2025/08/gothic-fantasy-female-portraits-sleeve.jpg', title: 'Dark Fantasy themed tattoo', description: 'Tattoo with  mystical female faces, skulls, and dark fantasy artistic elements' },
+                { src: 'http://stayonpoint.net/wp-content/uploads/2025/08/lion-roses-with-gems-geometric-patterns-sleeve.jpg', title: 'Custom themed tattoo', description: 'Tattoo with realistic lion portrait, roses with gems, and decorative geometric designs' }
+
             ]
         };
 
