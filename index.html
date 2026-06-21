@@ -38,6 +38,292 @@
         .hide-all{
             display: none !important;
         }
+/* Header Styling */
+#header {
+    background: linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%);
+    border-bottom: 3px solid #ff0000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* HIDE BRANDING SECTION */
+#branding {
+    display: none;
+}
+
+/* Navigation Styling - UPDATED FOR NEW MENU STRUCTURE */
+#menu {
+    background: rgba(0, 0, 0, 0.8);
+    border-top: 1px solid #333;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.menu-social-and-contact-container {
+    flex: 1;
+}
+
+#menu-social-and-contact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-item {
+    position: relative;
+}
+
+/* UPDATED: Clean text-based menu items, no button styling */
+.menu-item a {
+    font-family: 'Lato', sans-serif;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 0;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* CLEAN HOVER: Simple underline effect */
+.menu-item a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -3px;
+    left: 50%;
+    background-color: #ff0000;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.menu-item a:hover {
+    color: #ff0000;
+}
+
+.menu-item a:hover::after {
+    width: 100%;
+}
+
+/* Search Form Styling */
+#search {
+    margin-left: auto;
+    padding: 0 20px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.search-field {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #555;
+    border-radius: 20px;
+    padding: 8px 15px;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9rem;
+    min-width: 200px;
+    transition: all 0.3s ease;
+}
+
+.search-field:focus {
+    outline: none;
+    border-color: #ff0000;
+    background: rgba(255, 0, 0, 0.1);
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+}
+
+.search-field::placeholder {
+    color: #999;
+}
+
+.search-submit {
+    background: #ff0000;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    padding: 8px 15px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-submit:hover {
+    background: #cc0000;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+}
+
+.screen-reader-text {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    #site-title h1 {
+        font-size: 3rem;
+    }
+    
+    #site-description {
+        font-size: 1rem;
+    }
+    
+    #menu-social-and-contact {
+        gap: 25px;
+    }
+    
+    .search-field {
+        min-width: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    #branding {
+        padding: 15px;
+    }
+
+    #site-title h1 {
+        font-size: 2.5rem;
+    }
+
+    #site-description {
+        font-size: 0.95rem;
+        margin-top: 8px;
+    }
+
+    #menu {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+
+    #menu-social-and-contact {
+        flex-direction: row;
+        gap: 12px;
+    }
+
+    .menu-item a {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+        min-width: 120px;
+        text-align: center;
+    }
+
+    #search {
+        margin: 0;
+        padding: 0;
+    }
+
+    .search-form {
+        justify-content: center;
+    }
+
+    .search-field {
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    #branding {
+        padding: 10px;
+    }
+
+    #site-title h1 {
+        font-size: 2rem;
+        text-shadow: 
+            0 0 3px #ff0000,
+            1px 1px 0px #000;
+    }
+
+    #site-description {
+        font-size: 0.85rem;
+        padding: 0 10px;
+    }
+
+    #menu {
+        padding: 10px 15px;
+    }
+
+    #menu-social-and-contact {
+        gap: 8px;
+    }
+
+    .menu-item a {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        letter-spacing: 0.5px;
+        min-width: 100px;
+    }
+
+    .search-field {
+        min-width: 150px;
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+
+    .search-submit {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
+
+/* Desktop navigation layout for larger screens */
+@media (min-width: 769px) {
+    #menu {
+        padding: 15px 40px;
+    }
+
+    #menu-social-and-contact {
+        justify-content: flex-start;
+        gap: 35px;
+    }
+
+    #search {
+        margin: 0;
+    }
+}
+/* Style for page */
+
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Lato", sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1, h2{
+            font-family: "New Rocker", sans-serif ;
+        }
+        h3, h4, h5{ font-family: "Lato", sans-serif; font-weight: 700; }
+
+img.emoji {
+    height: 20px;
+}
         /* Hero Section */
         .hero {
             position: relative;
@@ -931,6 +1217,7 @@
         }
 
         .lightbox-nav {
+    z-index: 1;
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -1181,6 +1468,7 @@
                 font-size: 16px;
             }
 
+            .testimonial-info h3 {
                 font-size: 1rem;
             }
 
