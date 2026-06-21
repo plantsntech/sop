@@ -182,7 +182,7 @@
 
         .panel-label {
             position: absolute;
-            bottom: 120px; left: 50%;
+            bottom: 40px; left: 50%;
             transform: translateX(-50%) rotate(-90deg);
             white-space: nowrap;
             color: #fff;
@@ -345,50 +345,161 @@
             border: 2px solid #111; padding: 12px 28px;
             text-decoration: none; text-transform: uppercase;
             font-weight: 700; border-radius: 5px;
-            transition: all 0.3s ease; font-size: 16px; letter-spacing: 0.5px;
+            transition: all 0.3s ease; font-size: 0.85rem; letter-spacing: 0.5px;
             display: inline-block;
         }
         .btn-outline-dark:hover { background: #111; color: #fff; }
 
         /* ══════════════════════════════════════════════════════
-           PORTFOLIO
+           ARTIST SECTION — REDESIGNED
         ══════════════════════════════════════════════════════ */
-        .artist-portfolio { padding: 60px 20px; background-color: white; }
-        .portfolio-content {
-            display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px;
-            max-width: 1200px; margin: 0 auto; align-items: start;
+        .artist-section { background: #0d0d0d; }
+
+        .artist-intro { position: relative; overflow: hidden; }
+        .artist-intro-bg {
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 50% 100% at 0% 50%, rgba(255,0,0,0.09) 0%, transparent 65%),
+                radial-gradient(ellipse 30% 60% at 100% 0%, rgba(255,0,0,0.06) 0%, transparent 60%),
+                #0d0d0d;
         }
-        .artist-info-section { display: flex; flex-direction: column; gap: 30px; }
-        .artist-photo {
-            width: 200px; height: 200px; border-radius: 50%;
-            background-color: #ddd; object-fit: cover; margin: 0 auto;
+        .artist-intro-inner {
+            position: relative; z-index: 1;
+            max-width: 1200px; margin: 0 auto;
+            padding: 80px 40px;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 70px;
+            align-items: start;
         }
-        .about-artist h3 { font-size: 1.5rem; margin-bottom: 20px; }
-        .about-artist p { color: #555; line-height: 1.6; margin-bottom: 15px; }
-        .specializations { background-color: #f8f8f8; padding: 25px; border-radius: 10px; }
-        .specializations h3 { font-size: 1.3rem; margin-bottom: 20px; }
-        .specializations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .specialty-item { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; color: #333; }
-        .specialty-item::before { content: "✓"; color: #ff0000; font-weight: bold; }
-        .portfolio-right { display: flex; flex-direction: column; gap: 30px; }
-        .portfolio-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .portfolio-image { width:100%; height:250px; object-fit:cover; border-radius:10px; background-color:#ddd; transition:transform 0.3s ease; cursor:pointer; }
-        .portfolio-image-wrapper { position:relative; overflow:hidden; border-radius:10px; cursor:pointer; }
-        .portfolio-overlay {
-            position:absolute; bottom:0; left:0; right:0;
-            background:linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            color:white; padding:20px 15px; transform:translateY(100%); transition:transform 0.3s ease;
+        .artist-photo-col { display: flex; flex-direction: column; gap: 28px; }
+        .artist-photo-frame { position: relative; width: 100%; aspect-ratio: 3/4; overflow: hidden; }
+        .artist-photo-img {
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center top; display: block;
+            filter: grayscale(15%) contrast(1.05);
         }
-        .portfolio-image-wrapper:hover .portfolio-overlay { transform:translateY(0); }
-        .portfolio-overlay h4 { font-size:1rem; margin-bottom:5px; }
-        .portfolio-overlay p { font-size:0.9rem; margin:0; color:#ccc; }
-        .book-session { background-color:#1a1a1a; color:white; padding:30px; border-radius:10px; }
-        .book-session h3 { font-size:1.5rem; margin-bottom:15px; }
-        .book-session p { color:#ccc; margin-bottom:25px; line-height:1.6; }
-        .contact-methods { display:flex; flex-direction:column; gap:15px; }
-        .contact-method { display:flex; align-items:center; gap:10px; color:#ccc; }
-        .contact-method a { color:#fff; text-decoration:none; }
-        .contact-method a:hover { color:#ff0000; }
+        .artist-photo-border {
+            position: absolute; inset: 0;
+            border: 2px solid rgba(255,0,0,0.45); pointer-events: none;
+        }
+        .artist-photo-border::before {
+            content: ''; position: absolute;
+            top: 10px; left: 10px; right: -10px; bottom: -10px;
+            border: 1px solid rgba(255,0,0,0.15); pointer-events: none;
+        }
+        .artist-stat-strip {
+            display: flex; align-items: center;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 3px; padding: 16px 18px;
+        }
+        .artist-stat { flex: 1; text-align: center; }
+        .stat-num { display: block; font-family: 'New Rocker', sans-serif; font-size: 1.3rem; color: #ff0000; line-height: 1; }
+        .stat-lbl { display: block; font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase; color: #666; margin-top: 4px; }
+        .stat-div { width: 1px; height: 30px; background: rgba(255,255,255,0.1); }
+
+        .artist-bio-col { padding-top: 6px; }
+        .artist-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #ff0000; margin-bottom: 12px; }
+        .artist-name { font-family: 'New Rocker', sans-serif; font-size: 4.2rem; color: #fff; line-height: 0.9; margin-bottom: 18px; }
+        .artist-red-rule { width: 56px; height: 3px; background: #ff0000; margin-bottom: 22px; }
+        .artist-bio-lead { font-size: 1.1rem; color: #ddd; line-height: 1.6; margin-bottom: 16px; font-weight: 300; }
+        .artist-bio-body { font-size: 0.95rem; color: #888; line-height: 1.8; margin-bottom: 14px; }
+
+        .artist-specs {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+            margin: 28px 0 32px; padding: 26px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 3px;
+        }
+        .spec-heading { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #ff0000; margin-bottom: 14px; }
+        .spec-list { list-style: none; padding: 0; }
+        .spec-list li {
+            font-size: 0.87rem; color: #aaa; padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .spec-list li::before { content: ''; display: block; width: 4px; height: 4px; background: #ff0000; border-radius: 50%; flex-shrink: 0; }
+        .spec-list li:last-child { border-bottom: none; }
+
+        .artist-book-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #ff0000; color: #fff;
+            padding: 14px 34px; text-decoration: none;
+            font-weight: 700; font-size: 0.8rem; letter-spacing: 2.5px; text-transform: uppercase;
+            border-radius: 2px; transition: background 0.25s ease, transform 0.2s ease;
+        }
+        .artist-book-btn:hover { background: #cc0000; transform: translateY(-2px); }
+        .artist-book-btn::after { content: '\2192'; font-size: 1rem; }
+
+        .portfolio-strip-header {
+            max-width: 1200px; margin: 0 auto;
+            padding: 48px 40px 22px;
+            display: flex; align-items: baseline; gap: 18px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .strip-eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #ff0000; }
+        .strip-title { font-family: 'New Rocker', sans-serif; font-size: 1.9rem; color: #fff; }
+
+        .portfolio-strip { display: grid; grid-template-columns: repeat(6, 1fr); height: 360px; overflow: hidden; }
+        .pstrip-item { position: relative; overflow: hidden; cursor: pointer; border-right: 1px solid rgba(0,0,0,0.4); }
+        .pstrip-item:last-child { border-right: none; }
+        .pstrip-bg {
+            position: absolute; inset: 0; background-size: cover; background-position: center;
+            transition: transform 0.5s ease; filter: grayscale(25%);
+        }
+        .pstrip-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.1) 100%);
+            transition: background 0.4s ease;
+        }
+        .pstrip-item:hover .pstrip-bg { transform: scale(1.08); filter: grayscale(0%); }
+        .pstrip-item:hover .pstrip-bg::after { background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.05) 50%, transparent 100%); }
+        .pstrip-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 18px 13px; z-index: 1; transform: translateY(5px); transition: transform 0.3s ease; }
+        .pstrip-item:hover .pstrip-overlay { transform: translateY(0); }
+        .pstrip-tag { display: block; font-size: 0.58rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff0000; margin-bottom: 4px; }
+        .pstrip-title { font-family: 'New Rocker', sans-serif; font-size: 0.95rem; color: #fff; line-height: 1.2; }
+
+        .portfolio-strip-footer { padding: 24px 40px 55px; display: flex; justify-content: flex-end; max-width: 1200px; margin: 0 auto; }
+        .strip-more-btn {
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            color: #666; text-decoration: none; border-bottom: 1px solid #444; padding-bottom: 2px;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        .strip-more-btn:hover { color: #ff0000; border-color: #ff0000; }
+
+        /* ══════════════════════════════════════════════════════
+           BLOG FEED
+        ══════════════════════════════════════════════════════ */
+        .blog-feed { padding: 80px 20px; background: #fff; }
+        .blog-feed-header {
+            display: flex; align-items: flex-end; justify-content: space-between;
+            margin-bottom: 42px; flex-wrap: wrap; gap: 14px;
+            max-width: 1200px; margin-left: auto; margin-right: auto; margin-bottom: 42px;
+        }
+        .blog-eyebrow { display: block; font-size: 0.68rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #ff0000; margin-bottom: 7px; }
+        .blog-feed-title { font-family: 'New Rocker', sans-serif; font-size: 2.1rem; color: #111; line-height: 1; }
+        .blog-all-link {
+            font-size: 0.77rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            color: #888; text-decoration: none; border-bottom: 1px solid #ccc; padding-bottom: 2px;
+            transition: color 0.2s ease, border-color 0.2s ease; white-space: nowrap;
+        }
+        .blog-all-link:hover { color: #ff0000; border-color: #ff0000; }
+        .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; max-width: 1200px; margin: 0 auto; }
+        .blog-card { background: #fff; border: 1px solid #eee; border-radius: 2px; overflow: hidden; transition: box-shadow 0.3s ease, transform 0.3s ease; }
+        .blog-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.1); transform: translateY(-4px); }
+        .blog-card-img-link { overflow: hidden; display: block; }
+        .blog-card-img { width: 100%; height: 210px; background-size: cover; background-position: center; transition: transform 0.5s ease; filter: grayscale(15%); }
+        .blog-card:hover .blog-card-img { transform: scale(1.04); filter: grayscale(0%); }
+        .blog-card-body { padding: 22px 22px 26px; }
+        .blog-card-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
+        .blog-card-cat { font-size: 0.62rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #ff0000; background: rgba(255,0,0,0.07); padding: 3px 8px; border-radius: 2px; }
+        .blog-card-date { font-size: 0.73rem; color: #bbb; }
+        .blog-card-title { font-size: 1rem; line-height: 1.35; margin-bottom: 9px; }
+        .blog-card-title a { color: #111; text-decoration: none; transition: color 0.2s ease; }
+        .blog-card-title a:hover { color: #ff0000; }
+        .blog-card-excerpt { font-size: 0.86rem; color: #777; line-height: 1.65; margin-bottom: 17px; }
+        .blog-card-read { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #111; text-decoration: none; border-bottom: 2px solid #ff0000; padding-bottom: 2px; transition: color 0.2s ease; }
+        .blog-card-read:hover { color: #ff0000; }
 
         /* ══════════════════════════════════════════════════════
            BOOK SESSION — INTERACTIVE BANNER
@@ -576,6 +687,52 @@
         .lightbox-next { right:30px; }
 
         /* ── RESPONSIVE ── */
+        /* ── Artist + Blog responsive ── */
+        @media (max-width: 1100px) {
+            .artist-intro-inner { grid-template-columns: 260px 1fr; gap: 50px; }
+            .artist-name { font-size: 3.4rem; }
+            .portfolio-strip { grid-template-columns: repeat(3, 1fr); height: auto; }
+            .pstrip-item { height: 240px; }
+            .blog-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .artist-intro-inner { grid-template-columns: 1fr; padding: 50px 24px; gap: 40px; }
+            .artist-photo-frame { aspect-ratio: 4/3; max-height: 320px; }
+            .artist-name { font-size: 3rem; }
+            .artist-specs { grid-template-columns: 1fr; gap: 20px; }
+            .portfolio-strip { grid-template-columns: repeat(2, 1fr); }
+            .pstrip-item { height: 200px; }
+            .portfolio-strip-header { padding: 36px 24px 18px; }
+            .portfolio-strip-footer { padding: 18px 24px 40px; }
+            .blog-grid { grid-template-columns: 1fr; }
+            .blog-feed-header { flex-direction: column; align-items: flex-start; }
+        }
+        @media (max-width: 480px) {
+            .artist-name { font-size: 2.6rem; }
+            .portfolio-strip { grid-template-columns: 1fr 1fr; }
+            .pstrip-item { height: 170px; }
+            .blog-card-img { height: 180px; }
+        }
+
+
+        /* ── Artist + Blog responsive ── */
+        @media (max-width: 1100px) {
+            .artist-intro-inner { grid-template-columns: 260px 1fr; gap: 50px; }
+            .artist-name { font-size: 3.4rem; }
+            .portfolio-strip { grid-template-columns: repeat(3, 1fr); height: auto; }
+            .pstrip-item { height: 240px; }
+            .blog-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* ── Artist + Blog responsive ── */
+        @media (max-width: 1100px) {
+            .artist-intro-inner { grid-template-columns: 260px 1fr; gap: 50px; }
+            .artist-name { font-size: 3.4rem; }
+            .portfolio-strip { grid-template-columns: repeat(3, 1fr); height: auto; }
+            .pstrip-item { height: 240px; }
+            .blog-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
         @media (max-width: 1024px) {
             .book-banner-inner { grid-template-columns: 1fr; gap: 50px; padding: 60px 30px; }
             .book-copy h2 { font-size: 2.8rem; }
@@ -584,6 +741,18 @@
             .accordion-panel.open { flex: 4; }
         }
         @media (max-width: 768px) {
+            /* Artist section mobile */
+            .artist-intro-inner { grid-template-columns: 1fr; padding: 45px 20px; gap: 36px; }
+            .artist-photo-frame { aspect-ratio: 4/3; }
+            .artist-name { font-size: 2.8rem; }
+            .artist-specs { grid-template-columns: 1fr; gap: 18px; }
+            .portfolio-strip { grid-template-columns: repeat(2, 1fr); }
+            .pstrip-item { height: 190px; }
+            .portfolio-strip-header, .portfolio-strip-footer { padding-left: 20px; padding-right: 20px; }
+            /* Blog mobile */
+            .blog-grid { grid-template-columns: 1fr; }
+            .blog-feed-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            /* Hero */
             .hero { height: 100vh; min-height: 600px; }
             .hero h1 { font-size: 2.5rem; }
             .hero h2 { font-size: 1.2rem; }
@@ -852,49 +1021,210 @@
         </div>
     </section>
 
-    <!-- PORTFOLIO -->
-    <section id="portfolio" class="artist-portfolio">
+    <!-- ════════════════════════════════════════
+         ARTIST PORTFOLIO — REDESIGNED
+    ════════════════════════════════════════ -->
+    <section id="portfolio" class="artist-section">
+
+        <div class="artist-intro">
+            <div class="artist-intro-bg"></div>
+            <div class="artist-intro-inner">
+
+                <div class="artist-photo-col">
+                    <div class="artist-photo-frame">
+                        <img src="http://stayonpoint.net/wp-content/uploads/2025/07/dboi-final-bng.png"
+                             alt="Dboi — owner and master tattoo artist, StayOnPoint NYC"
+                             class="artist-photo-img">
+                        <div class="artist-photo-border"></div>
+                    </div>
+                    <div class="artist-stat-strip">
+                        <div class="artist-stat"><span class="stat-num">15+</span><span class="stat-lbl">Years Tattooing</span></div>
+                        <div class="stat-div"></div>
+                        <div class="artist-stat"><span class="stat-num">NYC</span><span class="stat-lbl">Queens Studio</span></div>
+                        <div class="stat-div"></div>
+                        <div class="artist-stat"><span class="stat-num">B&amp;G</span><span class="stat-lbl">Specialist</span></div>
+                    </div>
+                </div>
+
+                <div class="artist-bio-col">
+                    <div class="artist-eyebrow">House Artist &amp; Studio Owner</div>
+                    <h2 class="artist-name">Dboi</h2>
+                    <div class="artist-red-rule"></div>
+                    <p class="artist-bio-lead">15 years. Conventions coast to coast. Now rooted in Queens, NYC &mdash; creating work that lasts a lifetime.</p>
+                    <p class="artist-bio-body">Starting in a small studio, I worked my way through conventions across the USA, building relationships with clients and artists nationwide. That journey led me to open StayOnPoint Tattoo Studio &mdash; a space where I specialize in photorealistic portraits and large-scale black and grey work, and where traveling artists from around the world come to showcase their talent in one of the most vibrant cities on earth.</p>
+                    <p class="artist-bio-body">The relationships built through this art form &mdash; with clients, fellow artists, and the global tattoo community &mdash; remain the most rewarding part of this journey.</p>
+
+                    <div class="artist-specs">
+                        <div class="artist-spec-col">
+                            <h4 class="spec-heading">Specializations</h4>
+                            <ul class="spec-list">
+                                <li>Photorealistic Portraits</li>
+                                <li>Black &amp; Grey Realism</li>
+                                <li>Large Scale Projects</li>
+                                <li>Cover-up Work</li>
+                                <li>Custom Design</li>
+                                <li>Lettering</li>
+                            </ul>
+                        </div>
+                        <div class="artist-spec-col">
+                            <h4 class="spec-heading">Studio Info</h4>
+                            <ul class="spec-list">
+                                <li>By Appointment Only</li>
+                                <li>Free Consultation</li>
+                                <li>Custom Designs Only</li>
+                                <li>Queens, NYC</li>
+                                <li>(718) 753-0756</li>
+                                <li>@stayonpoint</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="#book" class="artist-book-btn">Book a Session</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="portfolio-strip-header">
+            <span class="strip-eyebrow">Selected Work</span>
+            <h3 class="strip-title">The Portfolio</h3>
+        </div>
+
+        <div class="portfolio-strip">
+            <div class="pstrip-item" onclick="openLightbox('blackngrey', 0)">
+                <div class="pstrip-bg" style="background-image:url('http://stayonpoint.net/wp-content/uploads/2025/08/Woman-on-chest.jpg')"></div>
+                <div class="pstrip-overlay"><span class="pstrip-tag">B&amp;G Realism</span><h4 class="pstrip-title">Portrait &mdash; Chest</h4></div>
+            </div>
+            <div class="pstrip-item" onclick="openLightbox('blackngrey', 1)">
+                <div class="pstrip-bg" style="background-image:url('http://stayonpoint.net/wp-content/uploads/2025/08/Taino-Boriquen-woman-arm-tattoo.jpg')"></div>
+                <div class="pstrip-overlay"><span class="pstrip-tag">B&amp;G Realism</span><h4 class="pstrip-title">Taino Woman</h4></div>
+            </div>
+            <div class="pstrip-item" onclick="openLightbox('sleeves', 0)">
+                <div class="pstrip-bg" style="background-image:url('http://stayonpoint.net/wp-content/uploads/2025/08/spartan-warrior-skull-armor-sleeve.jpg')"></div>
+                <div class="pstrip-overlay"><span class="pstrip-tag">Full Sleeve</span><h4 class="pstrip-title">Spartan Warrior</h4></div>
+            </div>
+            <div class="pstrip-item" onclick="openLightbox('portfolio', 0)">
+                <div class="pstrip-bg" style="background-image:url('http://stayonpoint.net/wp-content/uploads/2025/08/USA-flag-and-AmericanEagle.jpg')"></div>
+                <div class="pstrip-overlay"><span class="pstrip-tag">Custom Sleeve</span><h4 class="pstrip-title">American Eagle</h4></div>
+            </div>
+            <div class="pstrip-item" onclick="openLightbox('sleeves', 2)">
+                <div class="pstrip-bg" style="background-image:url('http://stayonpoint.net/wp-content/uploads/2025/08/african-mythology-yemenya-fish-sleeve.jpg')"></div>
+                <div class="pstrip-overlay"><span class="pstrip-tag">Full Sleeve</span><h4 class="pstrip-title">African Mythology</h4></div>
+            </div>
+            <div class="pstrip-item" onclick="openLightbox('blackngrey', 2)">
+                <div class="pstrip-bg" style="background-image:url('http://stayonpoint.net/wp-content/uploads/2025/08/Sugar-skull-woman-kissing-death-with-money-roses-arm-sleeve.jpg')"></div>
+                <div class="pstrip-overlay"><span class="pstrip-tag">Dark Surrealism</span><h4 class="pstrip-title">Sugar Skull</h4></div>
+            </div>
+        </div>
+
+        <div class="portfolio-strip-footer">
+            <a href="https://instagram.com/stayonpoint" target="_blank" rel="noopener" class="strip-more-btn">See More on Instagram &rarr;</a>
+        </div>
+
+    </section>
+
+    <!-- ════════════════════════════════════════
+         BLOG FEED — WordPress CMS Ready
+    ════════════════════════════════════════ -->
+    <section class="blog-feed" id="blog">
         <div class="container">
-            <h2 class="section-title">Meet the artist</h2>
-            <div class="portfolio-content">
-                <div class="artist-info-section">
-                    <img src="http://stayonpoint.net/wp-content/uploads/2025/07/dboi-final-bng.png"
-                         alt="Dboi master tattoo artist and owner StayOnPoint Tattoo Studio Queens NYC"
-                         class="artist-photo">
-                    <div class="about-artist">
-                        <h3>About Dboi</h3>
-                        <p>With 15 years in the tattoo industry, I've been honored to create art that clients carry forever. Starting in a small studio, I worked my way through conventions across the USA, building relationships with clients and artists nationwide.</p>
-                        <p>This journey led me to open StayOnPoint Tattoo Studio in NYC, where I specialize in photorealistic portraits and large-scale black and grey work. Our studio has become a platform for traveling artists worldwide, showcasing talent in one of the most vibrant cities on earth.</p>
-                        <p>The relationships built through this art form &mdash; with clients, fellow artists, and the global tattoo community &mdash; remain the most rewarding part of this journey.</p>
-                    </div>
-                    <div class="specializations">
-                        <h3>Specializations</h3>
-                        <div class="specializations-grid">
-                            <div class="specialty-item">Photorealistic Portraits</div>
-                            <div class="specialty-item">Black &amp; Grey Realism</div>
-                            <div class="specialty-item">Large Scale Projects</div>
-                            <div class="specialty-item">Cover-up Specialists</div>
-                            <div class="specialty-item">Custom Design Work</div>
-                            <div class="specialty-item">Lettering Work</div>
-                        </div>
-                    </div>
+            <div class="blog-feed-header">
+                <div>
+                    <span class="blog-eyebrow">From The Studio</span>
+                    <h2 class="blog-feed-title">Latest Posts</h2>
                 </div>
-                <div class="portfolio-right">
-                    <div class="portfolio-gallery">
-                        <div class="portfolio-image-wrapper" onclick="openLightbox('blackngrey', 0)">
-                            <img src="http://stayonpoint.net/wp-content/uploads/2025/08/Woman-on-chest.jpg" alt="Black and grey woman portrait chest tattoo" class="portfolio-image">
-                            <div class="portfolio-overlay"><h4>Black and Grey Realism</h4><p>Black and grey tattoo work</p></div>
+                <a href="/blog" class="blog-all-link">All Posts &rarr;</a>
+            </div>
+
+            <!--
+            ╔══════════════════════════════════════════════════════╗
+            ║  WORDPRESS LOOP — paste into your .php template      ║
+            ║  Replace the static .blog-card articles below with:  ║
+            ╚══════════════════════════════════════════════════════╝
+
+            <?php
+            $args = array(
+                'post_type'      => 'post',
+                'posts_per_page' => 3,
+                'post_status'    => 'publish',
+            );
+            $loop = new WP_Query( $args );
+            if ( $loop->have_posts() ) :
+                while ( $loop->have_posts() ) : $loop->the_post(); ?>
+                <article class="blog-card">
+                    <?php if ( has_post_thumbnail() ) : ?>
+                    <a href="<?php the_permalink(); ?>" class="blog-card-img-link" tabindex="-1">
+                        <div class="blog-card-img"
+                             style="background-image:url('<?php the_post_thumbnail_url("medium_large"); ?>')">
                         </div>
-                        <div class="portfolio-image-wrapper" onclick="openLightbox('portfolio', 0)">
-                            <img src="http://stayonpoint.net/wp-content/uploads/2025/08/USA-flag-and-AmericanEagle.jpg" alt="USA flag American eagle tattoo sleeve NYC" class="portfolio-image">
-                            <div class="portfolio-overlay"><h4>Custom NY Sleeve</h4><p>Black and grey style</p></div>
+                    </a>
+                    <?php endif; ?>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-cat"><?php the_category(", "); ?></span>
+                            <span class="blog-card-date"><?php echo get_the_date("M j, Y"); ?></span>
                         </div>
-                        <div class="portfolio-image-wrapper" onclick="openLightbox('sleeves', 0)">
-                            <img src="http://stayonpoint.net/wp-content/uploads/2025/08/spartan-warrior-skull-armor-sleeve.jpg" alt="Spartan warrior skull armor sleeve tattoo" class="portfolio-image">
-                            <div class="portfolio-overlay"><h4>Spartan</h4><p>Black and Grey surreal artwork</p></div>
-                        </div>
+                        <h3 class="blog-card-title">
+                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        </h3>
+                        <p class="blog-card-excerpt">
+                            <?php echo wp_trim_words( get_the_excerpt(), 20, "&hellip;" ); ?>
+                        </p>
+                        <a href="<?php the_permalink(); ?>" class="blog-card-read">Read More</a>
                     </div>
-                </div>
+                </article>
+                <?php endwhile;
+                wp_reset_postdata();
+            endif; ?>
+            -->
+
+            <div class="blog-grid">
+
+                <article class="blog-card">
+                    <a href="/blog/aftercare-guide" class="blog-card-img-link" tabindex="-1">
+                        <div class="blog-card-img" style="background-image:url('http://stayonpoint.net/wp-content/uploads/2025/08/Woman-on-chest.jpg')"></div>
+                    </a>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-cat">Aftercare</span>
+                            <span class="blog-card-date">Jun 12, 2025</span>
+                        </div>
+                        <h3 class="blog-card-title"><a href="/blog/aftercare-guide">The Complete Tattoo Aftercare Guide</a></h3>
+                        <p class="blog-card-excerpt">Everything you need to know to protect your new ink in the first two weeks &mdash; from wrap removal to moisturizing.</p>
+                        <a href="/blog/aftercare-guide" class="blog-card-read">Read More</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <a href="/blog/black-grey-process" class="blog-card-img-link" tabindex="-1">
+                        <div class="blog-card-img" style="background-image:url('http://stayonpoint.net/wp-content/uploads/2025/08/spartan-warrior-skull-armor-sleeve.jpg')"></div>
+                    </a>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-cat">Process</span>
+                            <span class="blog-card-date">May 28, 2025</span>
+                        </div>
+                        <h3 class="blog-card-title"><a href="/blog/black-grey-process">How Black &amp; Grey Realism Actually Works</a></h3>
+                        <p class="blog-card-excerpt">Breaking down the technique behind photorealistic black and grey tattoos &mdash; needles, dilution, and why contrast is everything.</p>
+                        <a href="/blog/black-grey-process" class="blog-card-read">Read More</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <a href="/blog/sleeve-planning" class="blog-card-img-link" tabindex="-1">
+                        <div class="blog-card-img" style="background-image:url('http://stayonpoint.net/wp-content/uploads/2025/08/african-mythology-yemenya-fish-sleeve.jpg')"></div>
+                    </a>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-cat">Planning</span>
+                            <span class="blog-card-date">May 5, 2025</span>
+                        </div>
+                        <h3 class="blog-card-title"><a href="/blog/sleeve-planning">Planning Your First Full Sleeve</a></h3>
+                        <p class="blog-card-excerpt">A sleeve is a long-term commitment. Here&rsquo;s how we approach the design process to make sure you love it for life.</p>
+                        <a href="/blog/sleeve-planning" class="blog-card-read">Read More</a>
+                    </div>
+                </article>
+
             </div>
         </div>
     </section>
