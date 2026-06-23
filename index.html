@@ -94,20 +94,73 @@
         .hero h2 { font-size: 1.5rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
         .hero p { margin-bottom: 30px; font-size: 1.1rem; }
         .hero-buttons { display: flex; gap: 20px; }
-        .btn {
-            padding: 12px 30px; text-decoration: none; text-transform: uppercase;
-            font-weight: bold; border-radius: 5px; transition: all 0.3s ease;
+        /* ── UNIFIED BUTTON SYSTEM ──
+   Reference: .artist-book-btn (dark-bg red fill)
+   .btn-red    = red fill, any bg
+   .btn-outline = outlined dark (light bg)
+   .btn-outline-white = outlined white (dark bg)
+-------------------------------------------------------- */
+        .btn-red,
+        .btn-primary,
+        .artist-book-btn,
+        .book-cta-btn,
+        .shop-cta-row .btn-primary,
+        .artist-book-btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            background: #ff0000; color: #fff;
+            padding: 14px 34px; text-decoration: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700; font-size: 0.82rem;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            border: 2px solid #ff0000;
+            border-radius: 2px;
+            transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+            cursor: pointer;
         }
-        .btn-primary { background-color: #ff0000; color: white; border: 2px solid #ff0000; }
-        .btn-primary:hover { background-color: #cc0000; }
-        .btn-secondary { background-color: transparent; color: white; border: 2px solid white; }
-        .btn-secondary:hover { background-color: white; color: #333; }
+        .btn-red:hover,
+        .btn-primary:hover,
+        .shop-cta-row .btn-primary:hover {
+            background: #cc0000; border-color: #cc0000; transform: translateY(-2px);
+        }
+        .artist-book-btn:hover,
+        .book-cta-btn:hover {
+            background: #cc0000; border-color: #cc0000; transform: translateY(-2px);
+        }
+        .artist-book-btn::after,
+        .book-cta-btn::after { content: '\2192'; font-size: 1rem; }
+
+        .btn-outline-dark,
+        .btn-secondary {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: transparent; color: #111;
+            border: 2px solid #111; padding: 14px 34px;
+            text-decoration: none; text-transform: uppercase;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700; font-size: 0.82rem; letter-spacing: 2.5px;
+            border-radius: 2px;
+            transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+            cursor: pointer;
+        }
+        .btn-outline-dark:hover,
+        .btn-secondary:hover { background: #111; color: #fff; transform: translateY(-2px); }
+
+        .btn-outline-white {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: transparent; color: #fff;
+            border: 2px solid #fff; padding: 14px 34px;
+            text-decoration: none; text-transform: uppercase;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700; font-size: 0.82rem; letter-spacing: 2.5px;
+            border-radius: 2px;
+            transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+        }
+        .btn-outline-white:hover { background: #fff; color: #111; transform: translateY(-2px); }
 
         /* ── TESTIMONIALS ── */
         .testimonials { padding: 60px 20px; background-color: #f8f8f8; }
         .container { max-width: 1200px; margin: 0 auto; }
-        .section-title { text-align: center; font-size: 2rem; margin-bottom: 10px; }
-        .section-subtitle { text-align: center; color: #666; margin-bottom: 40px; }
+        .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 10px; font-family: 'New Rocker', sans-serif; }
+        .section-subtitle { text-align: center; color: #666; font-size: 1rem; margin-bottom: 40px; }
         .toggle-container { display: flex; justify-content: center; margin-bottom: 40px; }
         .toggle-btn {
             padding: 12px 30px; border: 2px solid #e0e0e0;
@@ -182,7 +235,7 @@
 
         .panel-label {
             position: absolute;
-            bottom: 140px; left: 50%;
+            bottom: 40px; left: 50%;
             transform: translateX(-50%) rotate(-90deg);
             white-space: nowrap;
             color: #fff;
@@ -196,8 +249,6 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.8);
             pointer-events: none;
         }
-        .panel-label:first-of-type {
-            bottom: 170px !important; }
         .accordion-panel.open .panel-label { opacity: 0; }
 
         .panel-accent-line {
@@ -318,7 +369,7 @@
         .shop-copy { display: flex; flex-direction: column; gap: 30px; }
         .shop-headline {
             font-family: 'New Rocker', sans-serif;
-            font-size: 2.4rem; line-height: 1.15; color: #111;
+            font-size: 2.6rem; line-height: 1.15; color: #111;
         }
         .shop-headline span { color: #ff0000; }
         .shop-copy > p { color: #555; font-size: 1rem; line-height: 1.8; }
@@ -337,20 +388,7 @@
         .vibe-item p { font-size: 0.88rem; color: #555; line-height: 1.5; margin: 0; }
 
         .shop-cta-row { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
-        .shop-cta-row .btn-primary {
-            background: #ff0000; color: #fff; border: 2px solid #ff0000;
-            display: inline-block;
-        }
-        .shop-cta-row .btn-primary:hover { background: #cc0000; border-color: #cc0000; }
-        .btn-outline-dark {
-            background: transparent; color: #111;
-            border: 2px solid #111; padding: 12px 28px;
-            text-decoration: none; text-transform: uppercase;
-            font-weight: 700; border-radius: 5px;
-            transition: all 0.3s ease; font-size: 0.85rem; letter-spacing: 0.5px;
-            display: inline-block;
-        }
-        .btn-outline-dark:hover { background: #111; color: #fff; }
+        /* btn-outline-dark and .btn-primary defined in unified button system above */
 
         /* ══════════════════════════════════════════════════════
            ARTIST SECTION — REDESIGNED
@@ -409,33 +447,21 @@
         .artist-bio-body { font-size: 0.95rem; color: #888; line-height: 1.8; margin-bottom: 14px; }
 
         .artist-specs {
-                display: flex;
-    gap: 10px;
-    margin: 28px 0 32px;
-    padding: 26px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+            margin: 28px 0 32px; padding: 26px;
             background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 3px;
         }
         .spec-heading { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #ff0000; margin-bottom: 14px; }
-        .spec-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;}
+        .spec-list { list-style: none; padding: 0; }
         .spec-list li {
-            font-size: 0.87rem; color: #aaa; padding: 0;
-            display: flex; align-items: center; gap: 10px;
+            font-size: 0.87rem; color: #aaa; padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex; align-items: center; gap: 8px;
         }
         .spec-list li::before { content: ''; display: block; width: 4px; height: 4px; background: #ff0000; border-radius: 50%; flex-shrink: 0; }
         .spec-list li:last-child { border-bottom: none; }
 
-        .artist-book-btn {
-            display: inline-flex; align-items: center; gap: 10px;
-            background: #ff0000; color: #fff;
-            padding: 14px 34px; text-decoration: none;
-            font-weight: 700; font-size: 0.8rem; letter-spacing: 2.5px; text-transform: uppercase;
-            border-radius: 2px; transition: background 0.25s ease, transform 0.2s ease;
-        }
-        .artist-book-btn:hover { background: #cc0000; transform: translateY(-2px); }
-        .artist-book-btn::after { content: '\2192'; font-size: 1rem; }
+        /* .artist-book-btn defined in unified button system */
 
         .portfolio-strip-header {
             max-width: 1200px; margin: 0 auto;
@@ -443,7 +469,7 @@
             display: flex; align-items: baseline; gap: 18px;
             border-top: 1px solid rgba(255,255,255,0.06);
         }
-        .strip-eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #ff0000; }
+        .strip-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #ff0000; }
         .strip-title { font-family: 'New Rocker', sans-serif; font-size: 1.9rem; color: #fff; }
 
         .portfolio-strip { display: grid; grid-template-columns: repeat(6, 1fr); height: 360px; overflow: hidden; }
@@ -482,8 +508,8 @@
             margin-bottom: 42px; flex-wrap: wrap; gap: 14px;
             max-width: 1200px; margin-left: auto; margin-right: auto; margin-bottom: 42px;
         }
-        .blog-eyebrow { display: block; font-size: 0.68rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #ff0000; margin-bottom: 7px; }
-        .blog-feed-title { font-family: 'New Rocker', sans-serif; font-size: 2.1rem; color: #111; line-height: 1; }
+        .blog-eyebrow { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #ff0000; margin-bottom: 8px; }
+        .blog-feed-title { font-family: 'New Rocker', sans-serif; font-size: 2.2rem; color: #111; line-height: 1; }
         .blog-all-link {
             font-size: 0.77rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
             color: #888; text-decoration: none; border-bottom: 1px solid #ccc; padding-bottom: 2px;
@@ -656,18 +682,8 @@
         }
         .hours-footer p { font-size: 0.8rem; color: #555; line-height: 1.5; font-style: italic; }
 
-        .book-cta-btn {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            background: #ff0000; color: #fff;
-            padding: 16px 38px; text-decoration: none;
-            font-weight: 700; font-size: 0.85rem;
-            letter-spacing: 2px; text-transform: uppercase;
-            border-radius: 3px;
-            transition: background 0.25s ease, transform 0.2s ease;
-            margin-top: 28px;
-        }
-        .book-cta-btn:hover { background: #cc0000; transform: translateY(-2px); }
-        .book-cta-btn::after { content: '\2192'; font-size: 1.1rem; }
+        /* .book-cta-btn defined in unified button system; keep margin */
+        .book-cta-btn { margin-top: 28px; width: 100%; }
 
         /* ── STUDIO LOCATION ── */
         .studio-location { padding: 60px 20px; background-color: #f8f8f8; }
@@ -721,23 +737,9 @@
         }
 
 
-        /* ── Artist + Blog responsive ── */
-        @media (max-width: 1100px) {
-            .artist-intro-inner { grid-template-columns: 260px 1fr; gap: 50px; }
-            .artist-name { font-size: 3.4rem; }
-            .portfolio-strip { grid-template-columns: repeat(3, 1fr); height: auto; }
-            .pstrip-item { height: 240px; }
-            .blog-grid { grid-template-columns: repeat(2, 1fr); }
-        }
+        
 
-        /* ── Artist + Blog responsive ── */
-        @media (max-width: 1100px) {
-            .artist-intro-inner { grid-template-columns: 260px 1fr; gap: 50px; }
-            .artist-name { font-size: 3.4rem; }
-            .portfolio-strip { grid-template-columns: repeat(3, 1fr); height: auto; }
-            .pstrip-item { height: 240px; }
-            .blog-grid { grid-template-columns: repeat(2, 1fr); }
-        }
+        
 
         @media (max-width: 1024px) {
             .book-banner-inner { grid-template-columns: 1fr; gap: 50px; padding: 60px 30px; }
@@ -762,13 +764,13 @@
             .hero { height: 100vh; min-height: 600px; }
             .hero h1 { font-size: 2.5rem; }
             .hero h2 { font-size: 1.2rem; }
-            .hero-buttons { flex-direction: column; width: 100%; max-width: 300px; gap: 15px; }
-            .btn { width: 100%; padding: 15px 30px; display: block; text-align: center; }
+            .hero-buttons { flex-direction: column; width: 100%; max-width: 320px; gap: 12px; }
+            .hero-buttons .btn-red, .hero-buttons .btn-outline-white { width: 100%; padding: 15px 20px; }
             .testimonial-grid { grid-template-columns: 1fr; }
             .accordion-wrapper { flex-direction: column; height: auto; }
             .accordion-panel { flex: none !important; height: 200px; border-right: none; border-bottom: 1px solid rgba(255,0,0,0.2); }
             .accordion-panel.open { height: 420px; }
-            .panel-label { transform: translateX(-50%); bottom: 20px !important; font-size: 1.1rem; }
+            .panel-label { transform: translateX(-50%); bottom: 20px; font-size: 1.1rem; }
             .panel-content { padding: 25px 25px 35px; }
             .panel-content h3 { font-size: 1.5rem; }
             .shop-layout { grid-template-columns: 1fr; gap: 40px; }
@@ -803,9 +805,56 @@
         @media (hover: none) {
             .panel-bg { transform: none !important; }
         }
+
+        /* ══════════════════════════════════════════════════════
+           MOBILE STICKY BOOKING BUTTON
+        ══════════════════════════════════════════════════════ */
+        .mobile-sticky-book {
+            display: none; /* hidden on desktop */
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            z-index: 999;
+            padding: 12px 20px 16px; /* extra bottom for safe-area */
+            padding-bottom: calc(12px + env(safe-area-inset-bottom));
+            background: rgba(10,10,10,0.96);
+            backdrop-filter: blur(8px);
+            border-top: 2px solid #ff0000;
+            box-shadow: 0 -4px 24px rgba(255,0,0,0.15);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .mobile-sticky-book.visible {
+            transform: translateY(0);
+        }
+        .mobile-sticky-book a {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: #ff0000; color: #fff;
+            padding: 15px 20px;
+            text-decoration: none; text-transform: uppercase;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700; font-size: 0.82rem; letter-spacing: 2.5px;
+            border-radius: 2px;
+            border: 2px solid #ff0000;
+            transition: background 0.2s ease;
+            width: 100%;
+        }
+        .mobile-sticky-book a:hover { background: #cc0000; border-color: #cc0000; }
+        .mobile-sticky-book a::after { content: '\2192'; font-size: 1rem; }
+
+        @media (max-width: 768px) {
+            .mobile-sticky-book { display: block; }
+            /* Push body so content isn't hidden behind sticky bar */
+            body { padding-bottom: 80px; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- MOBILE STICKY BOOKING BUTTON -->
+    <div class="mobile-sticky-book" id="mobileStickyBook" aria-label="Book a tattoo session">
+        <a href="#book">Ready to Get Inked? Book Now</a>
+    </div>
+
 
     <!-- HERO -->
     <section class="hero">
@@ -818,8 +867,8 @@
         <h2>Queens NYC | Custom Tattoos Studio</h2>
         <p>Professional Studio Custom Tattoos by Appointment Only</p>
         <div class="hero-buttons">
-            <a href="#shop" class="btn btn-primary">Explore The Shop</a>
-            <a href="#portfolio" class="btn btn-secondary">Book a Tattoo Appointment</a>
+            <a href="#shop" class="btn-red">Explore The Shop</a>
+            <a href="#portfolio" class="btn-outline-white">Book a Tattoo Appointment</a>
         </div>
     </section>
 
@@ -855,7 +904,7 @@
                             <div class="testimonial-avatar">T</div>
                             <div class="testimonial-info"><h3>Tip Tattoos</h3><p>Texas, USA</p></div>
                         </div>
-                        <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                        <p class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</p>
                         <p class="review-text">Professional setup and great atmosphere for guest artists.</p>
                     </div>
                 </div>
@@ -905,7 +954,7 @@
             <!-- Panel 1 -->
             <div class="accordion-panel open" data-panel="0" onclick="togglePanel(0)">
                 <div class="panel-bg" id="panel-bg-0"
-                     style="background-image: url('https://stayonpoint.net/wp-content/uploads/2025/08/USA-flag-and-AmericanEagle.jpg')">
+                     style="background-image: url('http://stayonpoint.net/wp-content/uploads/2025/07/Gian-Villena-2.jpg')">
                 </div>
                 <div class="panel-accent-line"></div>
                 <div class="panel-dots" id="dots-0">
@@ -913,11 +962,11 @@
                     <div class="panel-dot" onclick="switchPanelImage(event,0,1)"></div>
                     <div class="panel-dot" onclick="switchPanelImage(event,0,2)"></div>
                 </div>
-                <span class="panel-label">Black &amp; Grey Realism</span>
+                <span class="panel-label">Hyper-Realism</span>
                 <div class="panel-content">
-                    <span class="panel-artist-tag">Tattoo Style</span>
-                    <h3>Black &amp; Grey Realism</h3>
-                    <p>Portraits and figures rendered with breathtaking detail by our world-class artist.</p>
+                    <span class="panel-artist-tag">Guest Artists</span>
+                    <h3>Hyper-Realistic Ink</h3>
+                    <p>Portraits and figures rendered with breathtaking detail by our rotating roster of world-class guest artists.</p>
                     <a href="#portfolio" class="panel-cta" onclick="event.stopPropagation()">See Full Portfolio</a>
                 </div>
             </div>
@@ -925,7 +974,7 @@
             <!-- Panel 2 -->
             <div class="accordion-panel" data-panel="1" onclick="togglePanel(1)">
                 <div class="panel-bg" id="panel-bg-1"
-                     style="background-image: url('http://stayonpoint.net/wp-content/uploads/2025/08/Woman-on-chest.jpg')">
+                     style="background-image: url('http://stayonpoint.net/wp-content/uploads/2025/07/JM-tattoo-e1756095349450.jpg')">
                 </div>
                 <div class="panel-accent-line"></div>
                 <div class="panel-dots" id="dots-1">
@@ -933,10 +982,10 @@
                     <div class="panel-dot" onclick="switchPanelImage(event,1,1)"></div>
                     <div class="panel-dot" onclick="switchPanelImage(event,1,2)"></div>
                 </div>
-                <span class="panel-label">Cover-up Tattoos</span>
+                <span class="panel-label">Black &amp; Grey</span>
                 <div class="panel-content">
-                    <span class="panel-artist-tag">Tattoo Style</span>
-                    <h3>Cover-up Tattoos</h3>
+                    <span class="panel-artist-tag">Dboi &middot; House Artist</span>
+                    <h3>Black &amp; Grey Realism</h3>
                     <p>The house specialty. Deep contrast, silky gradients, and subject matter that hits &mdash; from wildlife to dark surrealism.</p>
                     <a href="#portfolio" class="panel-cta" onclick="event.stopPropagation()">Book a Session</a>
                 </div>
@@ -1019,7 +1068,7 @@
                     </div>
 
                     <div class="shop-cta-row">
-                        <a href="mailto:tattoos@stayonpoint.net" class="btn btn-primary">Book Your Appointment</a>
+                        <a href="mailto:tattoos@stayonpoint.net" class="btn-red">Book Your Appointment</a>
                         <a href="#portfolio" class="btn-outline-dark">See the Work</a>
                     </div>
                 </div>
@@ -1070,6 +1119,17 @@
                                 <li>Cover-up Work</li>
                                 <li>Custom Design</li>
                                 <li>Lettering</li>
+                            </ul>
+                        </div>
+                        <div class="artist-spec-col">
+                            <h4 class="spec-heading">Studio Info</h4>
+                            <ul class="spec-list">
+                                <li>By Appointment Only</li>
+                                <li>Free Consultation</li>
+                                <li>Custom Designs Only</li>
+                                <li>Queens, NYC</li>
+                                <li>(718) 753-0756</li>
+                                <li>@stayonpoint</li>
                             </ul>
                         </div>
                     </div>
@@ -1383,12 +1443,12 @@
     /* ── ACCORDION ── */
     const panelImages = [
         [
-            "https://stayonpoint.net/wp-content/uploads/2025/08/USA-flag-and-AmericanEagle.jpg",
-            "https://stayonpoint.net/wp-content/uploads/2025/08/American-Eagle-USA-custom-sleeve.jpg",
-            "https://stayonpoint.net/wp-content/uploads/2025/08/Man-with-abrast-lighting.jpg"
+            "http://stayonpoint.net/wp-content/uploads/2025/07/Gian-Villena-2.jpg",
+            "http://stayonpoint.net/wp-content/uploads/2025/07/Lena.jpg",
+            "http://stayonpoint.net/wp-content/uploads/2025/08/FCEE24AC-4D4D-46AB-B643-05F208260C50.jpg"
         ],
         [
-            "https://stayonpoint.net/wp-content/uploads/2025/08/Taino-Boriquen-woman-arm-tattoo.jpg",
+            "http://stayonpoint.net/wp-content/uploads/2025/07/JM-tattoo-e1756095349450.jpg",
             "http://stayonpoint.net/wp-content/uploads/2025/08/Woman-on-chest.jpg",
             "http://stayonpoint.net/wp-content/uploads/2025/08/Sugar-skull-woman-kissing-death-with-money-roses-arm-sleeve.jpg"
         ],
@@ -1522,6 +1582,27 @@
         currentSlide = (currentSlide + 1) % slides.length;
         slides[currentSlide].classList.add('active');
     }, 5000);
+
+
+    /* ── MOBILE STICKY BUTTON ── */
+    (function() {
+        var stickyBtn = document.getElementById('mobileStickyBook');
+        var featuredSection = document.querySelector('.featured-artwork');
+        if (!stickyBtn || !featuredSection) return;
+
+        function checkScroll() {
+            var rect = featuredSection.getBoundingClientRect();
+            // Show once the featured artwork section has scrolled past the top
+            if (rect.bottom < window.innerHeight * 0.8) {
+                stickyBtn.classList.add('visible');
+            } else {
+                stickyBtn.classList.remove('visible');
+            }
+        }
+
+        window.addEventListener('scroll', checkScroll, { passive: true });
+        checkScroll(); // run on load
+    })();
 
     /* ── SMOOTH SCROLL ── */
     document.querySelectorAll('a[href^="#"]').forEach(function(a) {
