@@ -20,6 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -88,11 +89,19 @@
             background: #000;
             isolation: isolate;
         }
-        .hero-video {
+        .hero-video-wrap {
             position: absolute; inset: 0; z-index: 0;
-            width: 100%; height: 100%;
-            object-fit: cover; object-position: center 40%;
+            overflow: hidden;
+            pointer-events: none; /* keep the embed inert — no clicking into YouTube UI */
+            background: #000 center / cover no-repeat;
+        }
+        .hero-video-wrap iframe {
+            position: absolute; top: 50%; left: 50%;
+            width: 100vw; height: 56.25vw;      /* 16:9 */
+            min-height: 100%; min-width: 177.78vh; /* 16:9 flipped, guarantees full cover */
+            transform: translate(-50%, -50%);
             filter: grayscale(15%) contrast(1.1) brightness(.8);
+            border: 0;
         }
         .hero-scrim {
             position: absolute; inset: 0; z-index: 1; pointer-events: none;
@@ -947,13 +956,9 @@
 
     <!-- HERO -->
     <section class="hero" id="hero">
-        <video
-            class="hero-video"
-            id="heroVideo"
-            src="https://youtu.be/OtisHpslzOc?si=nCGkOVAEPNWHg1xn"
-            poster="https://stayonpoint.net/wp-content/uploads/2025/09/BklynSkull-girl_01_Original.jpeg"
-            muted loop playsinline preload="metadata">
-        </video>
+        <div class="hero-video-wrap" style="background-image:url('https://img.youtube.com/vi/OtisHpslzOc/maxresdefault.jpg');" aria-hidden="true">
+            <div id="heroYouTube"></div>
+        </div>
         <div class="hero-scrim"></div>
 
         <div class="hero-inner">
@@ -1687,7 +1692,7 @@
     });
 
     /* ══════════════════════════════════════════════════════
-       HERO — video plays only while scrolled into view,
+       HERO — YouTube video plays only while scrolled into view,
        copy + flash cards animate in with GSAP, then float
     ══════════════════════════════════════════════════════ */
     (function() {
@@ -1696,30 +1701,61 @@
 
         var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var heroSection  = document.getElementById('hero');
-        var heroVideo    = document.getElementById('heroVideo');
         var scrollCue    = document.getElementById('heroScrollCue');
         var flashCards   = gsap.utils.toArray('[data-flash]');
         var revealEls    = gsap.utils.toArray('[data-reveal]');
         var baseTilt     = [-5, 2, -3]; // resting rotation per card, degrees
+        var HERO_VIDEO_ID = 'OtisHpslzOc';
 
-        /* 1. play video only while hero is in the viewport */
-        if (reduceMotion) {
-            heroVideo.pause();
-        } else {
+        /* 1. load the YouTube video as a background embed via the IFrame Player API */
+        var heroYTPlayer = null;
+        var heroYTReady  = false;
+
+        function playHero()  { if (heroYTPlayer && heroYTReady) heroYTPlayer.playVideo(); }
+        function pauseHero() { if (heroYTPlayer && heroYTReady) heroYTPlayer.pauseVideo(); }
+
+        window.onYouTubeIframeAPIReady = function() {
+            heroYTPlayer = new YT.Player('heroYouTube', {
+                videoId: HERO_VIDEO_ID,
+                playerVars: {
+                    autoplay: 0, mute: 1, loop: 1, playlist: HERO_VIDEO_ID,
+                    controls: 0, showinfo: 0, rel: 0, modestbranding: 1,
+                    playsinline: 1, disablekb: 1, fs: 0, iv_load_policy: 3
+                },
+                events: {
+                    onReady: function(e) {
+                        heroYTReady = true;
+                        e.target.mute();
+                        if (!reduceMotion) {
+                            var rect = heroSection.getBoundingClientRect();
+                            var inView = rect.bottom > 0 && rect.top < window.innerHeight;
+                            if (inView) e.target.playVideo();
+                        }
+                    }
+                }
+            });
+        };
+
+        var ytScript = document.createElement('script');
+        ytScript.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(ytScript);
+
+        /* 2. play video only while hero is in the viewport */
+        if (!reduceMotion) {
             ScrollTrigger.create({
                 trigger: heroSection,
                 start: 'top bottom',
                 end: 'bottom top',
-                onEnter:     function(){ heroVideo.play().catch(function(){}); },
-                onEnterBack: function(){ heroVideo.play().catch(function(){}); },
-                onLeave:     function(){ heroVideo.pause(); },
-                onLeaveBack: function(){ heroVideo.pause(); },
+                onEnter: playHero,
+                onEnterBack: playHero,
+                onLeave: pauseHero,
+                onLeaveBack: pauseHero,
             });
         }
 
         gsap.set(flashCards, { transformOrigin: '50% 50%' });
 
-        /* 2. entrance animation, then hand off to the float loop */
+        /* 3. entrance animation, then hand off to the float loop */
         if (reduceMotion) {
             gsap.set(revealEls, { opacity: 1, y: 0 });
             flashCards.forEach(function(card, i){ gsap.set(card, { rotate: baseTilt[i] || 0, opacity: 1 }); });
@@ -1738,7 +1774,7 @@
                   }, '-=.4');
         }
 
-        /* 3. ambient float loop, once entrance settles */
+        /* 4. ambient float loop, once entrance settles */
         function startFloat() {
             flashCards.forEach(function(card, i) {
                 gsap.to(card, {
@@ -1753,7 +1789,7 @@
             });
         }
 
-        /* 4. subtle cursor parallax on the cards (desktop only) */
+        /* 5. subtle cursor parallax on the cards (desktop only) */
         if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
             var quickSetters = flashCards.map(function(card, i) {
                 return { x: gsap.quickTo(card, 'x', { duration: .6, ease: 'power3.out' }), strength: 10 + i * 4 };
@@ -1765,11 +1801,12 @@
             });
         }
 
-        /* 5. scroll cue */
+        /* 6. scroll cue — reuses the same fade-in navigation as the nav links */
         if (scrollCue) {
             scrollCue.addEventListener('click', function() {
                 var next = heroSection.nextElementSibling;
-                if (next) next.scrollIntoView({ behavior: 'smooth' });
+                if (next && typeof goToSection === 'function') goToSection(next);
+                else if (next) next.scrollIntoView({ behavior: 'smooth' });
             });
             if (!reduceMotion) {
                 gsap.to('.hero-scroll-cue span', {
@@ -1801,11 +1838,45 @@
         checkScroll(); // run on load
     })();
 
-    /* ── SMOOTH SCROLL ── */
+    /* ══════════════════════════════════════════════════════
+       SECTION FADE-IN NAVIGATION
+       Clicking any #anchor link smooth-scrolls there, then
+       fades the destination section in once it's in place.
+    ══════════════════════════════════════════════════════ */
+    function goToSection(target) {
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (reduceMotion || typeof gsap === 'undefined' || typeof ScrollToPlugin === 'undefined') {
+            target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+            return;
+        }
+
+        gsap.killTweensOf(target);
+        gsap.killTweensOf(window);
+        gsap.set(target, { autoAlpha: 0, y: 22 });
+
+        gsap.to(window, {
+            duration: 1,
+            scrollTo: { y: target, offsetY: 0 },
+            ease: 'power2.inOut',
+            onComplete: function() {
+                gsap.to(target, { autoAlpha: 1, y: 0, duration: .6, ease: 'power2.out' });
+            }
+        });
+    }
+
+    if (typeof gsap !== 'undefined' && typeof ScrollToPlugin !== 'undefined') {
+        gsap.registerPlugin(ScrollToPlugin);
+    }
+
     document.querySelectorAll('a[href^="#"]').forEach(function(a) {
         a.addEventListener('click', function(e) {
-            var target = document.querySelector(this.getAttribute('href'));
-            if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+            var href = this.getAttribute('href');
+            if (!href || href.length < 2) return;
+            var target = document.querySelector(href);
+            if (!target) return;
+            e.preventDefault();
+            goToSection(target);
         });
     });
     </script>
