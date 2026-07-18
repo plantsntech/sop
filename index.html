@@ -18,6 +18,8 @@
     <link rel="canonical" href="https://stayonpoint.net">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -73,27 +75,93 @@
         .search-submit:hover { background: #cc0000; }
         .screen-reader-text { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
-        /* ── HERO ── */
+        /* ══════════════════════════════════════════════════════
+           HERO — VIDEO BACKGROUND, PLAYS ON SCROLL INTO VIEW
+        ══════════════════════════════════════════════════════ */
         .hero {
-            position: relative; height: 500px;
+            position: relative;
+            height: 100svh;
+            min-height: 640px;
             display: flex; flex-direction: column; justify-content: center;
-            align-items: center; text-align: center; color: white; overflow: hidden;
+            align-items: center; text-align: center; color: white;
+            overflow: hidden;
+            background: #000;
+            isolation: isolate;
         }
-        .slideshow-container { position: absolute; top:0; left:0; width:100%; height:100%; z-index: -1; }
-        .slide {
-            position: absolute; top:0; left:0; width:100%; height:100%;
-            opacity: 0; transition: opacity 2s ease-in-out;
-            background-size: cover; background-position: center;
+        .hero-video {
+            position: absolute; inset: 0; z-index: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center 40%;
+            filter: grayscale(15%) contrast(1.1) brightness(.8);
         }
-        .slide.active { opacity: 1; }
-        .slide::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.5); }
-        .slide1 { background-image: url('http://stayonpoint.net/wp-content/uploads/2025/07/Shop-inside-3.jpg'); }
-        .slide2 { background-image: url('http://stayonpoint.net/wp-content/uploads/2025/09/BklynSkull-girl_01_Original.jpeg'); }
-        .slide3 { background-image: url('http://stayonpoint.net/wp-content/uploads/2025/09/IMG_0859_Original-1.jpeg'); }
-        .hero h1 { font-size: 3rem; margin-bottom: 10px; color: #ff0000; }
-        .hero h2 { font-size: 1.5rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
-        .hero p { margin-bottom: 30px; font-size: 1.1rem; }
-        .hero-buttons { display: flex; gap: 20px; }
+        .hero-scrim {
+            position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background:
+                radial-gradient(ellipse 80% 65% at 50% 40%, rgba(0,0,0,.28) 0%, rgba(0,0,0,.72) 68%, rgba(0,0,0,.94) 100%),
+                linear-gradient(to bottom, rgba(0,0,0,.6) 0%, rgba(0,0,0,.1) 26%, rgba(0,0,0,.35) 62%, rgba(0,0,0,.95) 100%);
+        }
+        .hero-inner {
+            position: relative; z-index: 2;
+            width: 100%; max-width: 1180px;
+            margin: 0 auto;
+            padding: clamp(1.5rem, 5vw, 3rem);
+            display: flex; flex-direction: column; align-items: center;
+            gap: clamp(2.25rem, 5vw, 3.25rem);
+        }
+        .hero-copy { display: flex; flex-direction: column; align-items: center; gap: .5rem; }
+        .hero h1 { font-size: clamp(2.2rem, 6vw, 3rem); margin-bottom: 10px; color: #ff0000; text-shadow: 0 0 40px rgba(255,0,0,.35); }
+        .hero h2 { font-size: clamp(1rem, 2.4vw, 1.5rem); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        .hero p { margin-bottom: 10px; font-size: 1.1rem; color: #ddd; }
+        .hero-buttons { display: flex; gap: 20px; margin-top: .75rem; }
+
+        /* Floating flash-card image row */
+        .hero-flash-row {
+            display: flex; align-items: flex-end; justify-content: center;
+            gap: clamp(1.1rem, 3.4vw, 2.5rem);
+            flex-wrap: wrap; width: 100%;
+        }
+        .hero-flash-card {
+            position: relative; margin: 0;
+            width: clamp(120px, 14vw, 176px);
+            aspect-ratio: 4 / 5;
+            overflow: hidden; border-radius: 2px;
+            background: #141414;
+            border: 1px solid rgba(255,255,255,.15);
+            box-shadow: 0 30px 55px -20px rgba(0,0,0,.8), 0 4px 14px rgba(0,0,0,.4);
+            will-change: transform;
+        }
+        .hero-flash-card--wide { aspect-ratio: 5 / 4; }
+        .hero-flash-card img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(20%) contrast(1.05) brightness(.9);
+            transition: filter .5s ease, transform .6s ease;
+        }
+        .hero-flash-card:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.05); }
+        .hero-flash-card figcaption {
+            position: absolute; left: 0; right: 0; bottom: 0;
+            padding: .6rem .7rem .5rem;
+            font-family: 'Lato', sans-serif;
+            font-size: .62rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            color: #fff;
+            background: linear-gradient(to top, rgba(0,0,0,.9), transparent);
+        }
+        .hero-flash-card::after {
+            content: ''; position: absolute; inset: 0;
+            border: 1px solid rgba(255,0,0,0); transition: border-color .4s ease; pointer-events: none;
+        }
+        .hero-flash-card:hover::after { border-color: rgba(255,0,0,.6); }
+
+        .hero-scroll-cue {
+            position: absolute; left: 50%; bottom: clamp(1.2rem, 3vw, 2rem);
+            transform: translateX(-50%); z-index: 2;
+            display: flex; flex-direction: column; align-items: center; gap: .5rem;
+            background: none; border: none; color: #aaa; cursor: pointer;
+            font-family: 'Lato', sans-serif; font-size: .62rem; letter-spacing: 3px; text-transform: uppercase;
+        }
+        .hero-scroll-cue span {
+            display: block; width: 1px; height: 32px;
+            background: linear-gradient(to bottom, #ff0000, transparent);
+        }
         /* ── UNIFIED BUTTON SYSTEM ──
    Reference: .artist-book-btn (dark-bg red fill)
    .btn-red    = red fill, any bg
@@ -766,11 +834,13 @@
             .blog-grid { grid-template-columns: 1fr; }
             .blog-feed-header { flex-direction: column; align-items: flex-start; gap: 10px; }
             /* Hero */
-            .hero { height: 100vh; min-height: 600px; }
+            .hero { min-height: 600px; }
             .hero h1 { font-size: 2.5rem; }
             .hero h2 { font-size: 1.2rem; }
             .hero-buttons { flex-direction: column; width: 100%; max-width: 320px; gap: 12px; }
             .hero-buttons .btn-red, .hero-buttons .btn-outline-white { width: 100%; padding: 15px 20px; }
+            .hero-flash-row { gap: .9rem; }
+            .hero-flash-card { width: 92px; }
             .testimonial-grid { grid-template-columns: 1fr; }
             .accordion-wrapper { flex-direction: column; height: auto; }
             .accordion-panel { flex: none !important; height: 200px; border-right: none; border-bottom: 1px solid rgba(255,0,0,0.2); }
@@ -862,19 +932,49 @@
 
 
     <!-- HERO -->
-    <section class="hero">
-        <div class="slideshow-container">
-            <div class="slide slide1 active"></div>
-            <div class="slide slide2"></div>
-            <div class="slide slide3"></div>
+    <section class="hero" id="hero">
+        <video
+            class="hero-video"
+            id="heroVideo"
+            src="https://videos.pexels.com/video-files/11866134/11866134-hd_1920_1080_50fps.mp4"
+            poster="http://stayonpoint.net/wp-content/uploads/2025/07/Shop-inside-3.jpg"
+            muted loop playsinline preload="metadata">
+        </video>
+        <div class="hero-scrim"></div>
+
+        <div class="hero-inner">
+
+            <div class="hero-copy">
+                <h1 data-reveal>STAYONPOINT TATTOO STUDIO</h1>
+                <h2 data-reveal>Queens NYC | Custom Tattoos Studio</h2>
+                <p data-reveal>Professional Studio Custom Tattoos by Appointment Only</p>
+                <div class="hero-buttons" data-reveal>
+                    <a href="#shop" class="btn-red">Explore The Shop</a>
+                    <a href="#portfolio" class="btn-outline-white">Book a Tattoo Appointment</a>
+                </div>
+            </div>
+
+            <div class="hero-flash-row">
+                <figure class="hero-flash-card" data-flash>
+                    <img src="http://stayonpoint.net/wp-content/uploads/2025/07/Shop-inside-1-1.jpg" alt="Private tattoo workstation at StayOnPoint Queens">
+                    <figcaption>The Station</figcaption>
+                </figure>
+                <figure class="hero-flash-card hero-flash-card--wide" data-flash>
+                    <img src="http://stayonpoint.net/wp-content/uploads/2025/07/Shop-inside-3.jpg" alt="StayOnPoint interior — main tattoo floor, Queens NYC">
+                    <figcaption>The Studio</figcaption>
+                </figure>
+                <figure class="hero-flash-card" data-flash>
+                    <img src="http://stayonpoint.net/wp-content/uploads/2025/07/Shop-inside-2-1.jpg" alt="StayOnPoint front entrance Long Island City NYC">
+                    <figcaption>The Entrance</figcaption>
+                </figure>
+            </div>
+
         </div>
-        <h1>STAYONPOINT TATTOO STUDIO</h1>
-        <h2>Queens NYC | Custom Tattoos Studio</h2>
-        <p>Professional Studio Custom Tattoos by Appointment Only</p>
-        <div class="hero-buttons">
-            <a href="#shop" class="btn-red">Explore The Shop</a>
-            <a href="#portfolio" class="btn-outline-white">Book a Tattoo Appointment</a>
-        </div>
+
+        <button class="hero-scroll-cue" id="heroScrollCue" aria-label="Scroll down">
+            <span></span>
+            Scroll
+        </button>
     </section>
 
     <!-- TESTIMONIALS -->
@@ -1569,14 +1669,99 @@
         if (e.key === 'ArrowRight') navigateLightbox(g, 1);
     });
 
-    /* ── HERO SLIDESHOW ── */
-    var currentSlide = 0;
-    var slides = document.querySelectorAll('.slide');
-    setInterval(function() {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }, 5000);
+    /* ══════════════════════════════════════════════════════
+       HERO — video plays only while scrolled into view,
+       copy + flash cards animate in with GSAP, then float
+    ══════════════════════════════════════════════════════ */
+    (function() {
+        if (typeof gsap === 'undefined') return;
+        gsap.registerPlugin(ScrollTrigger);
+
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var heroSection  = document.getElementById('hero');
+        var heroVideo    = document.getElementById('heroVideo');
+        var scrollCue    = document.getElementById('heroScrollCue');
+        var flashCards   = gsap.utils.toArray('[data-flash]');
+        var revealEls    = gsap.utils.toArray('[data-reveal]');
+        var baseTilt     = [-5, 2, -3]; // resting rotation per card, degrees
+
+        /* 1. play video only while hero is in the viewport */
+        if (reduceMotion) {
+            heroVideo.pause();
+        } else {
+            ScrollTrigger.create({
+                trigger: heroSection,
+                start: 'top bottom',
+                end: 'bottom top',
+                onEnter:     function(){ heroVideo.play().catch(function(){}); },
+                onEnterBack: function(){ heroVideo.play().catch(function(){}); },
+                onLeave:     function(){ heroVideo.pause(); },
+                onLeaveBack: function(){ heroVideo.pause(); },
+            });
+        }
+
+        gsap.set(flashCards, { transformOrigin: '50% 50%' });
+
+        /* 2. entrance animation, then hand off to the float loop */
+        if (reduceMotion) {
+            gsap.set(revealEls, { opacity: 1, y: 0 });
+            flashCards.forEach(function(card, i){ gsap.set(card, { rotate: baseTilt[i] || 0, opacity: 1 }); });
+        } else {
+            var tl = gsap.timeline({
+                scrollTrigger: { trigger: heroSection, start: 'top 85%', once: true }
+            });
+            tl.from(revealEls, { opacity: 0, y: 26, duration: .8, ease: 'power3.out', stagger: .12 })
+              .fromTo(flashCards,
+                  { opacity: 0, y: 46, rotate: 0, scale: .92 },
+                  {
+                      opacity: 1, y: 0, scale: 1,
+                      rotate: function(i){ return baseTilt[i] || 0; },
+                      duration: 1, ease: 'power3.out', stagger: .14,
+                      onComplete: startFloat,
+                  }, '-=.4');
+        }
+
+        /* 3. ambient float loop, once entrance settles */
+        function startFloat() {
+            flashCards.forEach(function(card, i) {
+                gsap.to(card, {
+                    y: '+=' + (14 + i * 4),
+                    rotate: '+=' + (1.5 + (i % 2 ? -1 : 1) * 1.5),
+                    duration: 2.6 + i * .5,
+                    ease: 'sine.inOut',
+                    yoyo: true,
+                    repeat: -1,
+                    delay: i * .3,
+                });
+            });
+        }
+
+        /* 4. subtle cursor parallax on the cards (desktop only) */
+        if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
+            var quickSetters = flashCards.map(function(card, i) {
+                return { x: gsap.quickTo(card, 'x', { duration: .6, ease: 'power3.out' }), strength: 10 + i * 4 };
+            });
+            heroSection.addEventListener('mousemove', function(e) {
+                var rect = heroSection.getBoundingClientRect();
+                var relX = (e.clientX - rect.left) / rect.width - .5;
+                quickSetters.forEach(function(qs){ qs.x(relX * qs.strength); });
+            });
+        }
+
+        /* 5. scroll cue */
+        if (scrollCue) {
+            scrollCue.addEventListener('click', function() {
+                var next = heroSection.nextElementSibling;
+                if (next) next.scrollIntoView({ behavior: 'smooth' });
+            });
+            if (!reduceMotion) {
+                gsap.to('.hero-scroll-cue span', {
+                    scaleY: .4, transformOrigin: 'top',
+                    duration: 1.1, ease: 'sine.inOut', yoyo: true, repeat: -1,
+                });
+            }
+        }
+    })();
 
 
     /* ── MOBILE STICKY BUTTON ── */
